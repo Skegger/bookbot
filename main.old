@@ -1,0 +1,45 @@
+def main():
+    book_path = "books/frankenstein.txt"
+    text = get_book_text(book_path)
+#    print(text)
+    count = count_words(text)
+    print(f"--- Begin report of {book_path} ---\n {count} words found in the document\n")
+    words = char_count(text)
+#    print(words)
+    convert_to_list_of_dict(words)
+    for letter in convert_to_list_of_dict(words):
+        print(f"The '{letter['letter']}' character was found {letter['count']} times")
+    print("--- End Report ---")
+
+def convert_to_list_of_dict(dict):
+    letter_list = []
+    for letter in dict:
+        letter_list.append({"letter": letter, "count": dict[letter]})
+    letter_list.sort(reverse=True, key= sort_on)
+    return letter_list   
+    
+def sort_on(d):
+    return d["count"]
+
+def get_book_text(path):
+    with open(path) as f:
+        return f.read()
+
+def count_words(text):
+    words = text.split()
+    return len(words)
+
+def char_count(text):
+    letter_count = {}
+    for letter in text:
+        if letter.isalpha():
+            letter = letter.lower()
+            if letter in letter_count:
+                letter_count[letter] += 1
+            else:
+                letter_count[letter] = 1
+    return letter_count
+
+
+
+main()
